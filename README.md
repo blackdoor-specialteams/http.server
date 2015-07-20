@@ -1,0 +1,3 @@
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/blackdoor/http.server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)  
+master:	[![Build Status](https://travis-ci.org/blackdoor/http.server.svg?branch=master)](https://travis-ci.org/blackdoor/http.server)  
+dev: 	[![Build Status](https://travis-ci.org/blackdoor/http.server.svg?branch=dev)](https://travis-ci.org/blackdoor/http.server)
