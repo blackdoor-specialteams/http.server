@@ -101,12 +101,14 @@ class HttpServerThread implements ServerThread, ContextualElement{
 
             sendResponse();
 
-        }catch (EOFException e){
+        }catch (EOFException e) {
             throw e;
-        } catch (IOException to) {
+        }catch (SocketTimeoutException e) {
+            throw e;
+        }catch (IOException to) {
             printException(to);
             throw to;
-        } catch (Exception e) {
+        }catch (Exception e) {
             printException(e);
             context.setResponse(StandardResponses.SERVER_ERROR.getResponse());
             sendResponse();
