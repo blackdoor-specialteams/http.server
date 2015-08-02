@@ -6,8 +6,6 @@ import static black.door.util.DBP.*;
 
 /**
  * This abomination created by nfischer on 7/9/2015.
- * <p>
- * voodoo magic
  */
 public class BasicControllerFactory implements Controller.ControllerFactory{
 
@@ -30,6 +28,10 @@ public class BasicControllerFactory implements Controller.ControllerFactory{
 		return controller;
 	}
 
+	/**
+	 * @param controllerClass
+	 * @return a ControllerFactory which creates instances of controllerClass
+	 */
 	public static Controller.ControllerFactory getInstance(Class<? extends Controller> controllerClass){
 		return () -> {
 			try {
@@ -41,5 +43,21 @@ public class BasicControllerFactory implements Controller.ControllerFactory{
 			}
 			return null;
 		};
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		BasicControllerFactory that = (BasicControllerFactory) o;
+
+		return !(controllerClass != null ? !controllerClass.equals(that.controllerClass) : that.controllerClass != null);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return controllerClass != null ? controllerClass.hashCode() : 0;
 	}
 }
