@@ -6,9 +6,17 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Created by nfischer on 7/7/2015.
+ * An Enumerated type for common responses.
  */
 public enum StandardResponses {
-	CONTINUE(100, "Continue"),  OK(200, "OK"), BAD_REQUEST(400, "Bad Request"), UNAUTHORIZED(401, "Unauthorized"), NOT_FOUND(404, "Not Found"),  TEAPOT(418, "I'm a teapot"), SERVER_ERROR(500, "Server Error");
+	CONTINUE(100, "Continue"),
+	OK(200, "OK"),
+	BAD_REQUEST(400, "Bad Request"),
+	UNAUTHORIZED(401, "Unauthorized"),
+	NOT_FOUND(404, "Not Found"),
+	TEAPOT(418, "I'm a teapot"),
+	SERVER_ERROR(500, "Server Error");
+
 	private static final String VERSION = "http/1.1";
 	private int statusCode;
 	private String message;

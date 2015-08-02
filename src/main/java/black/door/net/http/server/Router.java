@@ -41,4 +41,11 @@ public class Router {
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "Router{" +
+				"routes=" + routes +
+				'}';
+	}
 }
