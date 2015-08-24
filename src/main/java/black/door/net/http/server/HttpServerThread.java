@@ -31,6 +31,7 @@ class HttpServerThread implements ServerThread, ContextualElement{
     private Router router;
     private HttpTransactionContext context;
     private static final int SOCKET_TIMEOUT = 7 * 1000;
+    private boolean keepAlive = true;
 
     public HttpServerThread() {
         context = new HttpTransactionContext();
@@ -45,12 +46,14 @@ class HttpServerThread implements ServerThread, ContextualElement{
             try {
                 sock.setSoTimeout(SOCKET_TIMEOUT);
 
-                while (true) {
+                while (keepAlive) {
                     transaction();
                 }
 
-            } catch (SocketTimeoutException sTO) {
-            }
+                if(keepAlive)
+                    context.getResponse().putHeader("Connection", "keep-alive");
+
+            } catch (SocketTimeoutException sTO) {}
 
             sock.close();
         }catch (Exception e) {}
@@ -68,6 +71,8 @@ class HttpServerThread implements ServerThread, ContextualElement{
             try {
                 is = new BoundedInputStream(new BufferedInputStream(sock.getInputStream()), Config.INSTANCE.getMaxRequestSize());
                 request = HttpRequest.parse(is, Config.INSTANCE.getMaxRequestSize());
+                if(request.getVersion().equalsIgnoreCase("http/1.0") && "keep-alive".equals(request.getHeader("Connection")))
+                    keepAlive = false;
                 context.setRequest(request);
             } catch (URISyntaxException | HttpParsingException e) {
                 printException(e);
@@ -101,7 +106,7 @@ class HttpServerThread implements ServerThread, ContextualElement{
 
             sendResponse();
 
-        }catch (EOFException e){
+        }catch (EOFException | SocketTimeoutException e){
             throw e;
         } catch (IOException to) {
             printException(to);

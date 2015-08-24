@@ -134,6 +134,9 @@ public class HttpServer implements Runnable {
 	public void run() {
 		HttpServerThread.HttpServerThreadBuilder threadBuilder = new HttpServerThread.HttpServerThreadBuilder(getRouter());
 		server = new Server(threadBuilder, port);
+		server.setQueueSizeFactor(8);
+		server.setMaxThreadPoolSizeFactor(64);
+		server.setMinThreadPoolSizeFactor(32);
 		server.run();
 	}
 
